@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 
 const getProducts = async (req: Request, res: Response) => {
   const products = await prisma.product.findMany();
-  res.json(products);
+  res.status(200).json(products);
 };
 
 const createProduct = async (req: Request, res: Response) => {

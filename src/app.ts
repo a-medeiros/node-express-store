@@ -2,7 +2,6 @@ import express from "express";
 import productsRouter from "./routes/products.js";
 
 const app = express();
-const port = 3000;
 
 app.use(express.json());
 
@@ -12,6 +11,4 @@ app.get("/", (req, res) => {
 
 app.use("/products", productsRouter);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+export default app;
