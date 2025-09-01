@@ -1,14 +1,14 @@
-import express from "express";
-import productsRouter from "./routes/products.js";
+import express from "express"
+import productsRouter from "./routes/products.js"
 
-const app = express();
+const app = express()
 
-app.use(express.json());
+app.use(express.json())
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+    res.send("Hello World")
 })
 
-app.use("/products", productsRouter);
+app.use("/products", productsRouter)
 
-export default app;
+export default app

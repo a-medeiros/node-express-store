@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "nodemon --watch src --exec \"node --loader ts-node/esm\" src/server.ts",
     "test:prep": "dotenv -e .env.test -- npx prisma migrate deploy",
-    "test": "npm run test:prep && NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "npm run test:prep && NODE_OPTIONS=--experimental-vm-modules jest",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "keywords": [],
   "author": "",
@@ -17,17 +19,24 @@
     "express": "^5.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.34.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/express": "^5.0.3",
     "@types/jest": "^30.0.0",
     "@types/node": "^24.2.0",
     "@types/supertest": "^6.0.3",
     "dotenv-cli": "^10.0.0",
+    "eslint": "^9.34.0",
+    "globals": "^16.3.0",
     "jest": "^30.0.5",
+    "jiti": "^2.5.1",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
     "prisma": "^6.13.0",
     "supertest": "^7.1.4",
     "ts-jest": "^29.4.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0"
   }
 }
