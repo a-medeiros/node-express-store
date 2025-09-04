@@ -6,7 +6,18 @@ on:
     branches: [ "main" ]
 
 jobs:
-  check:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run lint -- --max-warnings=0
+
+  test:
     runs-on: ubuntu-latest
 
     services:
@@ -25,7 +36,6 @@ jobs:
           --health-retries=10
 
     env:
-      # 👇 Prisma will use this database during CI
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/express_store_test
       NODE_ENV: test
 
@@ -42,19 +52,10 @@ jobs:
       - name: Prisma generate
         run: npx prisma generate
 
-      # If you keep migrations in prisma/migrations, use migrate deploy:
       - name: Apply migrations
         run: npx prisma migrate deploy
 
-      # If you *don’t* keep migrations, use db push instead (comment the block above and uncomment this):
-      # - name: Sync schema (no migrations)
-      #   run: npx prisma db push
-
-      # Optional seed (only if you have it)
       - run: npm run seed --if-present
-
-      - name: Lint
-        run: npm run lint -- --max-warnings=0
 
       - name: Tests
         run: npm test -- --ci --runInBand
