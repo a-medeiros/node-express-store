@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch src --exec \"node --loader ts-node/esm\" src/server.ts",
     "test:prep": "dotenv -e .env.test -- npx prisma migrate deploy",
-    "test": "npm run test:prep && NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "npm run test:prep && NODE_OPTIONS=--experimental-vm-modules jest --coverage",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
