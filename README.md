@@ -40,4 +40,9 @@ npx prisma migrate deploy
 npm run dev
 ```
 
+### 7. Opens a GUI for your database where you can view, create, update, and delete data easily.
+```
+npx prisma studio
+```
+
 The API will be available at `http://localhost:3000`
