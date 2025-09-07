@@ -18,4 +18,22 @@ const createProduct = async (req: Request, res: Response) => {
   res.status(201).json(product)
 }
 
-export { getProducts, createProduct }
+const getProductById = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  if (!id) {
+    return res.status(400).json({ message: "Product ID is required" })
+  }
+
+  const product = await prisma.product.findUnique({
+    where: { id },
+  })
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" })
+  }
+
+  res.status(200).json(product)
+}
+
+export { getProducts, createProduct, getProductById }
