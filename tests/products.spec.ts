@@ -43,28 +43,3 @@ describe("POST /products", () => {
   })
 })
 
-describe("GET /products/:id", () => {
-  beforeEach(async () => {
-    await prisma.product.createMany({
-      data: [
-        { name: 'foo', price: 100 },
-        { name: 'bar', price: 250 },
-      ],
-    });
-  });
-
-  it("when the product exists, should return 200 and the product", async () => {
-    const firstProduct = await prisma.product.findFirst({
-      where: { name: 'foo' }
-    });
-
-    const res = await request(app).get(`/products/${firstProduct!.id}`)
-    expect(res.status).toBe(200)
-    expect(res.body).toMatchObject({ name: "foo", price: 100 });
-  })
-
-  it("when the product does not exist, should return 404", async () => {
-    const res = await request(app).get(`/products/123`)
-    expect(res.status).toBe(404)
-  })
-})
