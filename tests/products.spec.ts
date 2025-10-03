@@ -2,18 +2,18 @@ import request from "supertest"
 import app from "../src/app.js"
 import { prisma } from "../src/prisma.js"
 
-beforeEach(async () => {
-  await prisma.product.deleteMany();
-});
-
 describe("GET /products", () => {
-  beforeEach(async () => {
+  beforeAll(async () => {
     await prisma.product.createMany({
       data: [
         { name: 'foo', price: 100 },
         { name: 'bar', price: 250 },
       ],
     });
+  });
+
+  afterAll(async () => {
+    await prisma.product.deleteMany();
   });
 
   it("should return 200 and all products", async () => {

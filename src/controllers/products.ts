@@ -33,7 +33,7 @@ const createProduct = async (req: Request, res: Response) => {
     },
   })
 
-  res.status(201).json(product)
+  res.status(201).json({ id: product.id, name: product.name, price: product.price })
 }
 
 const updateProduct = async (req: Request, res: Response) => {
