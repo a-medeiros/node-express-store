@@ -6,18 +6,6 @@ const getProducts = async (req: Request, res: Response) => {
   res.status(200).json(products)
 }
 
-const createProduct = async (req: Request, res: Response) => {
-  const { name, price } = req.body
-  const product = await prisma.product.create({
-    data: {
-      name,
-      price,
-    },
-  })
-
-  res.status(201).json(product)
-}
-
 const getProductById = async (req: Request, res: Response) => {
   const { id } = req.params
 
@@ -33,7 +21,44 @@ const getProductById = async (req: Request, res: Response) => {
     return res.status(404).json({ message: "Product not found" })
   }
 
-  res.status(200).json(product)
+  res.status(200).json({ id: product.id, name: product.name, price: product.price })
 }
 
-export { getProducts, createProduct, getProductById }
+const createProduct = async (req: Request, res: Response) => {
+  const { name, price } = req.body
+  const product = await prisma.product.create({
+    data: {
+      name,
+      price,
+    },
+  })
+
+  res.status(201).json(product)
+}
+
+const updateProduct = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  if (!id) {
+    return res.status(400).json({ message: "Product ID is required" })
+  }
+
+  const product = await prisma.product.findUnique({
+    where: { id },
+  })
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" })
+  }
+
+  const { name, price } = req.body
+
+  const updatedProduct = await prisma.product.update({
+    where: { id },
+    data: { name, price },
+  })
+
+  res.status(200).json({ id: updatedProduct.id, name: updatedProduct.name, price: updatedProduct.price })
+}
+
+export { getProducts, createProduct, getProductById, updateProduct }
