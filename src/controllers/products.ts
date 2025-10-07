@@ -3,7 +3,9 @@ import type { Request, Response } from "express"
 import ProductRepository from "../repositories/ProductRepository.js"
 
 const getProducts = async (req: Request, res: Response) => {
-  const products = await prisma.product.findMany()
+  const productRepo = new ProductRepository()
+  const products = await productRepo.findAll()
+  
   res.status(200).json(products)
 }
 
