@@ -1,8 +1,9 @@
 import express from "express"
-import { getProductById } from "../controllers/products.js"
+import { getProductById, updateProduct } from "../controllers/products.js"
 
 const router = express.Router()
 
 router.get("/:id", getProductById)
+router.put("/:id", updateProduct)
 
 export default router

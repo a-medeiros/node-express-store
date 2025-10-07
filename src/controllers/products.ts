@@ -45,20 +45,15 @@ const updateProduct = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Product ID is required" })
   }
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-  })
+  const productRepo = new ProductRepository()
+  const product = await productRepo.findById(id)
 
   if (!product) {
     return res.status(404).json({ message: "Product not found" })
   }
 
   const { name, price } = req.body
-
-  const updatedProduct = await prisma.product.update({
-    where: { id },
-    data: { name, price },
-  })
+  const updatedProduct = await productRepo.update(id, name, price)
 
   res.status(200).json({ id: updatedProduct.id, name: updatedProduct.name, price: updatedProduct.price })
 }

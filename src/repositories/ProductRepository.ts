@@ -12,6 +12,10 @@ class ProductRepository implements IProductRepository {
   async findById(id: string): Promise<Product | null> {
     return prisma.product.findUnique({ where: { id } })
   }
+
+  async update(id: string, name: string, price: number): Promise<Product> {
+    return prisma.product.update({ where: { id }, data: { name, price } })
+  }
 }
 
 export default ProductRepository
