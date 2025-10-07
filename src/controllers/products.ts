@@ -1,5 +1,6 @@
 import { prisma } from "../prisma.js"
 import type { Request, Response } from "express"
+import ProductRepository from "../repositories/ProductRepository.js"
 
 const getProducts = async (req: Request, res: Response) => {
   const products = await prisma.product.findMany()
@@ -13,9 +14,8 @@ const getProductById = async (req: Request, res: Response) => {
     return res.status(400).json({ message: "Product ID is required" })
   }
 
-  const product = await prisma.product.findUnique({
-    where: { id },
-  })
+  const productRepo = new ProductRepository()
+  const product = await productRepo.findById(id)
 
   if (!product) {
     return res.status(404).json({ message: "Product not found" })
