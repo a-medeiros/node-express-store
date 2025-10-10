@@ -1,4 +1,5 @@
-# Node Express Store
+# REST API developed with Node.js, Express, and TypeScript.
+REST API for store product management.
 
 ### 📋 Prerequisites
 
