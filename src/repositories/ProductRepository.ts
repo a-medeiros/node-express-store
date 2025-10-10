@@ -16,6 +16,9 @@ class ProductRepository implements IProductRepository {
   async update(id: string, name: string, price: number): Promise<Product> {
     return prisma.product.update({ where: { id }, data: { name, price } })
   }
+  async create(name: string, price: number): Promise<Product> {
+    return prisma.product.create({ data: { name, price } })
+  }
 }
 
 export default ProductRepository

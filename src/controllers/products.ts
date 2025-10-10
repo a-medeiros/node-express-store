@@ -1,4 +1,3 @@
-import { prisma } from "../prisma.js"
 import type { Request, Response } from "express"
 import ProductRepository from "../repositories/ProductRepository.js"
 
@@ -28,12 +27,8 @@ const getProductById = async (req: Request, res: Response) => {
 
 const createProduct = async (req: Request, res: Response) => {
   const { name, price } = req.body
-  const product = await prisma.product.create({
-    data: {
-      name,
-      price,
-    },
-  })
+  const productRepo = new ProductRepository()
+  const product = await productRepo.create(name, price)
 
   res.status(201).json({ id: product.id, name: product.name, price: product.price })
 }
