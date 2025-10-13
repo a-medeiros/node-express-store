@@ -5,4 +5,5 @@ export interface IProductRepository {
   findById(id: string): Promise<Product | null>
   update(id: string, name: string, price: number): Promise<Product>
   create(name: string, price: number): Promise<Product>
+  delete(id: string): Promise<Product | null>
 }

@@ -1,6 +1,7 @@
 import type { Product } from "@prisma/client"
 import type { IProductRepository } from "./IProductRepository.js"
 import { prisma } from "../prisma.js"
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 
 class ProductRepository implements IProductRepository {
   async findAll(): Promise<Product[]> {
@@ -18,6 +19,17 @@ class ProductRepository implements IProductRepository {
   }
   async create(name: string, price: number): Promise<Product> {
     return prisma.product.create({ data: { name, price } })
+  }
+
+  async delete(id: string): Promise<Product | null> {
+    try {
+      return await prisma.product.delete({ where: { id } })
+    } catch (error: unknown) {
+      if (error instanceof PrismaClientKnownRequestError && error.code === 'P2025') {
+        return null
+      }
+      throw error
+    }
   }
 }
 

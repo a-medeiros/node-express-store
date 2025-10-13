@@ -53,4 +53,27 @@ const updateProduct = async (req: Request, res: Response) => {
   res.status(200).json({ id: updatedProduct.id, name: updatedProduct.name, price: updatedProduct.price })
 }
 
-export { getProducts, createProduct, getProductById, updateProduct }
+const deleteProduct = async (req: Request, res: Response) => {
+  const { id } = req.params
+
+  if (!id) {
+    return res.status(400).json({ message: "Product ID is required" })
+  }
+
+  const productRepo = new ProductRepository()
+  const product = await productRepo.findById(id)
+
+  if (!product) {
+    return res.status(404).json({ message: "Product not found" })
+  }
+
+  const deletedProduct = await productRepo.delete(id)
+
+  if (!deletedProduct) {
+    return res.status(404).json({ message: "Something went wrong" })
+  }
+
+  res.status(200).json({ message: "Product deleted" })
+}
+
+export { getProducts, createProduct, getProductById, updateProduct, deleteProduct }
