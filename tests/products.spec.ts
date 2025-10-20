@@ -31,15 +31,16 @@ describe("POST /products", () => {
     const res = await request(app).post("/products").send({
       name: "Shirt",
       price: 100,
+      imageUrl: "https://example.com/image.jpg",
     })
     expect(res.status).toBe(201)
-    expect(res.body).toMatchObject({ name: "Shirt", price: 100 });
+    expect(res.body).toMatchObject({ name: "Shirt", price: 100, imageUrl: "https://example.com/image.jpg" });
 
     const product = await prisma.product.findUnique({
       where: { id: res.body.id },
     });
 
-    expect(product).toMatchObject({ name: "Shirt", price: 100 });
+    expect(product).toMatchObject({ name: "Shirt", price: 100, imageUrl: "https://example.com/image.jpg" });
   })
 })
 

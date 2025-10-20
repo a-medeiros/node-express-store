@@ -14,11 +14,11 @@ class ProductRepository implements IProductRepository {
     return prisma.product.findUnique({ where: { id } })
   }
 
-  async update(id: string, name: string, price: number): Promise<Product> {
-    return prisma.product.update({ where: { id }, data: { name, price } })
+  async update(id: string, name: string, price: number, imageUrl: string | null): Promise<Product> {
+    return prisma.product.update({ where: { id }, data: { name, price, imageUrl } })
   }
-  async create(name: string, price: number): Promise<Product> {
-    return prisma.product.create({ data: { name, price } })
+  async create(name: string, price: number, imageUrl: string | null): Promise<Product> {
+    return prisma.product.create({ data: { name, price, imageUrl } })
   }
 
   async delete(id: string): Promise<Product | null> {

@@ -96,7 +96,7 @@ describe("updateProduct", () => {
   })
 
   it("should return 200 and the updated product", async () => {
-    const req = { params: { id: "1" }, body: { name: "fla", price: 50 } } as unknown as Request
+    const req = { params: { id: "1" }, body: { name: "fla", price: 50, imageUrl: "https://example.com/image.jpg" } } as unknown as Request
     const json = jest.fn()
     const status = jest.fn(() => ({ json }))
     const res = { status } as unknown as Response
@@ -104,7 +104,7 @@ describe("updateProduct", () => {
     await updateProduct(req, res)
 
     expect(status).toHaveBeenCalledWith(200)
-    expect(json).toHaveBeenCalledWith({ id: "1", name: "fla", price: 50 })
+    expect(json).toHaveBeenCalledWith({ id: "1", name: "fla", price: 50, imageUrl: "https://example.com/image.jpg" })
   })  
 })
 
