@@ -1,7 +1,18 @@
 import type { Request, Response } from "express"
 import { jest } from "@jest/globals"
+
+await jest.unstable_mockModule("../src/services/product/updateProductService.js", () => ({
+  updateProductService: jest.fn().mockResolvedValue({
+    id: "1",
+    name: "fla",
+    price: 50,
+    imageUrl: "https://example.com/stormtrooper.jpg",
+  }),
+}));
+
 import { deleteProduct, getProductById, updateProduct } from "../src/controllers/products.js"
 import { prisma } from "../src/prisma.js"
+
 
 describe("getProductById", () => {
   beforeAll(async () => {
@@ -96,7 +107,7 @@ describe("updateProduct", () => {
   })
 
   it("should return 200 and the updated product", async () => {
-    const req = { params: { id: "1" }, body: { name: "fla", price: 50, imageUrl: "https://example.com/image.jpg" } } as unknown as Request
+    const req = { params: { id: "1" }, body: { name: "fla", price: 50, file: Buffer.from("x") } } as unknown as Request
     const json = jest.fn()
     const status = jest.fn(() => ({ json }))
     const res = { status } as unknown as Response
@@ -104,7 +115,8 @@ describe("updateProduct", () => {
     await updateProduct(req, res)
 
     expect(status).toHaveBeenCalledWith(200)
-    expect(json).toHaveBeenCalledWith({ id: "1", name: "fla", price: 50, imageUrl: "https://example.com/image.jpg" })
+    expect(json).toHaveBeenCalledWith({ id: "1", 
+      name: "fla", price: 50, imageUrl: "https://example.com/stormtrooper.jpg" })
   })  
 })
 
